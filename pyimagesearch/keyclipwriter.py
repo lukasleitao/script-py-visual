@@ -30,6 +30,7 @@ class KeyClipWriter:
         #indicar qndo estamos gravando, iniciar o escritor de video
         #iniciar a fila de frames que vão ser escritas no arquivo de video
         self.recording = True
+        print(outputPath)
         self.writer = cv2.VideoWriter(outputPath, fourcc, fps, 
             (self.frames[0].shape[1], self.frames[0].shape[0]), True)
         self.Q = Queue()
