@@ -130,3 +130,21 @@ class Menu:
         for parametro,elemento in self.parametros.items():
             print('|{:^26}|{:^70}|'.format(parametro, elemento))            
         print('+--------------------------+----------------------------------------------------------------------+')
+
+
+    def enviar_drive(self):
+        escolha = input("""
+        O que deseja fazer com as gravações realizadas?
+        [1] - Enviar para o Google Drive
+        [2] - Armazenar os arquivos neste computador
+        [3] - Sair do programa
+        """)
+
+        if escolha == "1":
+            return True
+        elif escolha == "2":
+            return False
+        else:
+            print('\n\t[INFO] Você digitou um valor incorreto')
+            print('\n\t[INFO] Por favor, tente novamente')
+            self.enviar_drive()

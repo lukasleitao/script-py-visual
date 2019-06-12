@@ -8,6 +8,7 @@ from google.auth.transport.requests import Request
 from autenticacao import autenticacao
 import datetime
 from googleapiclient.http import MediaFileUpload
+import socket
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -15,8 +16,8 @@ SCOPES = ['https://www.googleapis.com/auth/drive']
 class upload:
 
     def __init__(self):
-        self.drive_service = autenticacao(SCOPES).getDriveService()
-
+        if self.internet():
+            self.drive_service = autenticacao(SCOPES).getDriveService()        
 
 
     def listarArquivos(self):
@@ -58,10 +59,12 @@ class upload:
                                                 fields='id').execute()
 
         if file:
-            print("O arquivo: {} foi enviado com sucesso \n\n\n".format(nomeArquivo))
+            print("[INFO] O arquivo: {} foi enviado com sucesso".format(nomeArquivo))
+            os.remove(localArquivo + "/" + nomeArquivo)
+            print("[INFO] O arquivo foi excluído do disco\n\n\n")
             return True
         else:
-            print("O arquivo não foi enviado\n\n\n")
+            print("[INFO] O arquivo não foi enviado\n\n\n")
             return False
 
 
@@ -78,3 +81,16 @@ class upload:
             self.uparArquivo(videos,local, 'video/mp4')
             print("[INFO] {}% concluídos".format(int(porcentagem_concluida)))
             
+
+    def internet(self,host="8.8.8.8", port=53, timeout=3):
+        """
+        Host: 8.8.8.8 (google-public-dns-a.google.com)
+        OpenPort: 53/tcp
+        Service: domain (DNS/TCP)
+        """
+        try:
+            socket.setdefaulttimeout(timeout)
+            socket.socket(socket.AF_INET, socket.SOCK_STREAM).connect((host, port))
+            return True
+        except:            
+            return False

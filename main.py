@@ -53,4 +53,13 @@ if kcw.recording:
 
 cv2.destroyAllWindows()
 vs.stop()
-upload().uparVideos('output')
+
+up = upload()
+if mn.enviar_drive() and up.internet():
+    up.uparVideos('output')
+else:
+    print("[INFO] O computador não possui internet neste momento, o arquivo será salvo no disco")
+    mn.__init__()
+
+
+
